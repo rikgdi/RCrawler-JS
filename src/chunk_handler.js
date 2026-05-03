@@ -33,8 +33,7 @@ class ChunkHandler {
     this.outputRoot = path.resolve(outputRoot);
     this.worldRoot = path.resolve(worldRoot);
     this.chunkDir = path.join(this.outputRoot, "chunks");
-    this.regionDir = path.join(this.worldRoot, "region");
-    this.manifestPath = path.join(this.regionDir, "chunk_index.json");
+    this.manifestPath = path.join(this.outputRoot, "chunk_index.json");
     this.protocol = protocol || loadProtocolSpec(PROTOCOL_VERSION);
     this.logger = logger || console;
     this._prepareStorage();
@@ -125,9 +124,13 @@ class ChunkHandler {
   }
 
   _prepareStorage() {
+    if (fs.existsSync(this.chunkDir)) {
+      fs.rmSync(this.chunkDir, { recursive: true, force: true });
+    }
+    if (fs.existsSync(this.manifestPath)) {
+      fs.rmSync(this.manifestPath, { force: true });
+    }
     fs.mkdirSync(this.chunkDir, { recursive: true });
-    fs.mkdirSync(this.regionDir, { recursive: true });
-    if (!fs.existsSync(this.manifestPath)) {
       fs.writeFileSync(
         this.manifestPath,
         stringifyJson({
