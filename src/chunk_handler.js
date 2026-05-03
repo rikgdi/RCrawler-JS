@@ -131,19 +131,18 @@ class ChunkHandler {
       fs.rmSync(this.manifestPath, { force: true });
     }
     fs.mkdirSync(this.chunkDir, { recursive: true });
-      fs.writeFileSync(
-        this.manifestPath,
-        stringifyJson({
-          format: "minecraft_region_manifest/v1",
-          minecraft_versions: [this.protocol.minecraftVersion],
-          protocol_versions: [this.protocol.protocolVersion],
-          data_versions: [this.protocol.dataVersion],
-          generated_at_unix_ms: Date.now(),
-          regions: {},
-        }, true),
-        "utf8",
-      );
-    }
+    fs.writeFileSync(
+      this.manifestPath,
+      stringifyJson({
+        format: "minecraft_region_manifest/v1",
+        minecraft_versions: [this.protocol.minecraftVersion],
+        protocol_versions: [this.protocol.protocolVersion],
+        data_versions: [this.protocol.dataVersion],
+        generated_at_unix_ms: Date.now(),
+        regions: {},
+      }, true),
+      "utf8",
+    );
   }
 
   _readHeightmaps(reader) {
