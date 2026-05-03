@@ -55,6 +55,8 @@ if (args.length === 0 || args.includes('--help') || args.includes('-h')) {
       "blocks-json": { type: "string", default: "" },
       "default-biome": { type: "string", default: "minecraft:plains" },
       "log-level": { type: "string", default: "INFO" },
+      ip: { type: "string", default: "127.0.0.1" },
+      port: { type: "string", default: "25565" },
     },
     allowPositionals: true,
     strict: false,
@@ -67,6 +69,8 @@ if (args.length === 0 || args.includes('--help') || args.includes('-h')) {
       blocksJsonPath: options["blocks-json"],
       defaultBiome: options["default-biome"],
       logLevel: options["log-level"],
+      host: options.ip,
+      port: Number(options.port),
     });
     process.exitCode = 0;
   } catch (e) {
