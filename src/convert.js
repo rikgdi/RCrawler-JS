@@ -44,25 +44,26 @@ function convertChunks(options = {}) {
       host,
       port,
       tempWorldDir,
-      userWorldDir: finalWorldDir,
+      userWorldDir: finalWorldDir, // Still used as lookup path for level.dat if provided
       logger,
     });
 
     if (keepWorldFolder) {
-      // If user wants to keep the folder, move it from temp to final destination
-      if (fs.existsSync(finalWorldDir)) {
-        fs.rmSync(finalWorldDir, { recursive: true, force: true });
+      fs.mkdirSync(finalWorldDir, { recursive: true });
+      const finalRegionDir = path.join(finalWorldDir, "region");
+      if (fs.existsSync(finalRegionDir)) {
+        fs.rmSync(finalRegionDir, { recursive: true, force: true });
       }
-      fs.renameSync(tempWorldDir, finalWorldDir);
-      logger.info("World folder preserved at: %s", finalWorldDir);
-    } else {
-      // Cleanup temp directory
-      fs.rmSync(tempWorldDir, { recursive: true, force: true });
+      fs.renameSync(path.join(tempWorldDir, "region"), finalRegionDir);
+      logger.info("World folder contents preserved at: %s", finalWorldDir);
     }
+
+    // Cleanup temp directory
+    fs.rmSync(tempWorldDir, { recursive: true, force: true });
 
     return {
       regions,
-      zipFile: zipFileName,
+      zipFile: zipFileName, // Now stays in root
     };
   } catch (error) {
     // Ensure cleanup even on error
