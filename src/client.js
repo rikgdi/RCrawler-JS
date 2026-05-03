@@ -507,9 +507,33 @@ class MinecraftClient {
       return;
     }
 
+    if (this._matchesPacket("play", "clientbound", "set_health", packetIdValue) ||
+        this._matchesPacket("play", "clientbound", "update_health", packetIdValue)) {
+      const health = reader.readFloat();
+      reader.readVarInt(); // food
+      reader.readFloat(); // saturation
+      
+      if (health <= 0) {
+        this.logger.info("Bot died (health: %s). Sending respawn command...", health);
+        this._sendRespawn();
+      }
+      return;
+    }
+
     if (this._matchesPacket("play", "clientbound", "disconnect", packetIdValue)) {
       throw new ProtocolError(`Disconnected during play; payload was ${payload.toString("hex")}`);
     }
+  }
+
+  _sendRespawn() {
+    if (!this.protocol.hasPacket("play", "serverbound", "client_command")) {
+      this.logger.warning("Protocol does not support client_command; cannot auto-respawn");
+      return;
+    }
+
+    const writer = new ByteWriter();
+    writer.writeVarInt(0); // Action ID 0: Perform respawn
+    this._send("play", "serverbound", "client_command", writer.toBuffer());
   }
 
   _sendLegacyPositionAck({ x, y, z }) {

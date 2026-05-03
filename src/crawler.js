@@ -73,6 +73,8 @@ class Crawler extends EventEmitter {
       chunksDir: options.chunksDir || `${this.options.outputDir}/chunks`,
       worldDir: options.worldDir || this.options.worldDir,
       logLevel: options.logLevel || this.options.logLevel,
+      host: this.options.host,
+      port: this.options.port,
       ...options
     });
   }

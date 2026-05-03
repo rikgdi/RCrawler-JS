@@ -107,6 +107,7 @@ const PACKETS_772 = {
       accept_teleportation: 0x00,
       chunk_batch_received: 0x0a,
       client_information: 0x0d,
+      client_command: 0x0b,
       cookie_response: 0x14,
       keep_alive: 0x1b,
       player_loaded: 0x2b,
