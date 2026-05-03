@@ -57,6 +57,7 @@ if (args.length === 0 || args.includes('--help') || args.includes('-h')) {
       "log-level": { type: "string", default: "INFO" },
       ip: { type: "string", default: "127.0.0.1" },
       port: { type: "string", default: "25565" },
+      "keep-world-folder": { type: "boolean", default: false },
     },
     allowPositionals: true,
     strict: false,
@@ -71,6 +72,7 @@ if (args.length === 0 || args.includes('--help') || args.includes('-h')) {
       logLevel: options["log-level"],
       host: options.ip,
       port: Number(options.port),
+      keepWorldFolder: options["keep-world-folder"],
     });
     process.exitCode = 0;
   } catch (e) {
