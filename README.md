@@ -151,8 +151,8 @@ rcrawler --convert-chunks --ip 127.0.0.1 --port 25565
 *   `--port <number>`: Port used for the ZIP filename.
 *   `--keep-world-folder`: (Optional) If set, the intermediate `world/region` folder is not deleted after zipping.
 
-### Generate Protocol Assets
-If you need to support a new Minecraft version, you can generate the required protocol assets:
+### Generate Protocol Assets (Developers Only)
+This tool is used by contributors to bootstrap support for new Minecraft versions. It requires local Mojang data reports and is not intended for regular usage:
 ```bash
 rcrawler --generate-protocol-assets --minecraft-version 1.20.1 --protocol 763
 ```
