@@ -1,6 +1,6 @@
 {
   "name": "rcrawler",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Node.js Minecraft server crawler that connects to offline-mode servers, captures raw chunk data packets, stores them as .bin files, and converts them into Anvil (.mca) region files when needed. Now features a programatic API.",
   "main": "src/index.js",
   "bin": {
