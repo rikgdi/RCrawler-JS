@@ -1,4 +1,4 @@
-# rcrawler
+# RCrawler
 
 A Node.js Minecraft server crawler that connects to offline-mode servers, captures raw chunk data packets, stores them as `.bin` files, and converts them into Anvil (`.mca`) region files. Supports both CLI usage and a programmatic, library-first API.
 
