@@ -190,7 +190,7 @@ This is a fully open-source project and anyone is welcome to contribute! Whether
 1.  **Fork** the repository.
 2.  **Clone** your fork:
     ```bash
-    git clone https://github.com/your-username/RCrawler-JS.git
+    git clone https://github.com/rikgdi/RCrawler-JS.git
     ```
 3.  **Create a branch** for your changes:
     ```bash
