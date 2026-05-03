@@ -1,6 +1,6 @@
 # RCrawler
 
-A Node.js Minecraft server crawler that connects to offline-mode servers, captures raw chunk data packets, stores them as `.bin` files, and converts them into Anvil (`.mca`) region files. Supports both CLI usage and a programmatic, library-first API.
+A Node.js Minecraft server crawler that connects to offline-mode servers, captures raw chunk data packets, and converts them into a complete, ZIP-packaged Minecraft world. Features include automatic session cleanup, auto-respawn logic, and built-in world templates.
 
 [![npm version](https://img.shields.io/npm/v/rcrawler.svg)](https://www.npmjs.com/package/rcrawler)
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](https://opensource.org/licenses/GPL-3.0)
@@ -77,10 +77,10 @@ bot.on('error', (err) => console.error('[!] Error:', err.message));
 bot.on('end', async () => {
   console.log('[+] Crawl finished. Starting conversion...');
 
-  // Optional: Convert captured data to Anvil format immediately
+  // Optional: Convert captured data to a ZIP-packaged world
   await bot.convertChunks();
   
-  console.log('[+] World export complete.');
+  console.log('[+] World ZIP generated successfully.');
 });
 
 // Execute
@@ -120,6 +120,16 @@ The `Crawler` instance emits the following events:
 
 ---
 
+## Features
+
+*   **Auto-Respawn**: The bot automatically detects when it has been slain and sends a respawn command to continue capturing chunks.
+*   **Session Cleanup**: Every time you start a new crawl, the `output` folder is automatically cleared to ensure your session data is fresh.
+*   **Direct ZIP Export**: The conversion process generates a structured `.zip` world file directly in your root directory.
+*   **World Templates**: Includes a default `level.dat` template, so your exported worlds are ready to load immediately in Minecraft.
+*   **Clean Workflow**: Intermediate files and folders used during conversion are automatically cleaned up.
+
+---
+
 ## CLI Usage
 
 `rcrawler` comes with a powerful command-line interface for manual operations.
@@ -131,10 +141,15 @@ rcrawler --crawl --ip 127.0.0.1 --username Getter --protocol 772
 ```
 
 ### Convert Chunks
-Convert your binary captures into Anvil (`.mca`) region files:
+Convert your binary captures into a ZIP-packaged Minecraft world:
 ```bash
-rcrawler --convert-chunks --chunks-dir output/chunks --world-dir world
+rcrawler --convert-chunks --ip 127.0.0.1 --port 25565
 ```
+
+**Options:**
+*   `--ip <address>`: IP used for the ZIP filename.
+*   `--port <number>`: Port used for the ZIP filename.
+*   `--keep-world-folder`: (Optional) If set, the intermediate `world/region` folder is not deleted after zipping.
 
 ### Generate Protocol Assets
 If you need to support a new Minecraft version, you can generate the required protocol assets:
@@ -163,6 +178,7 @@ rcrawler --generate-protocol-assets --minecraft-version 1.20.1 --protocol 763
 *   `src/chunk_handler.js`: Packet parsing and storage logic
 *   `src/convert.js`: World export implementation
 *   `src/anvil.js`: NBT rebuilding and MCA writing
+*   `src/assets/templates/`: Default world assets (like `level.dat`)
 
 ### Capture File Format (`.bin`)
 Each chunk is saved in a custom container optimized for speed:
