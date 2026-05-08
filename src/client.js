@@ -122,8 +122,8 @@ class MinecraftClient {
       while (true) {
         if (this._captureWindowExpired()) {
           this.logger.info(
-            "Capture window reached %.1fs; closing connection with %d chunk(s) saved",
-            this.maxCaptureSeconds,
+            "Capture window reached %ss; closing connection with %d chunk(s) saved",
+            this.maxCaptureSeconds.toFixed(1),
             this.chunkCount,
           );
           break;
@@ -157,8 +157,8 @@ class MinecraftClient {
       } else if (error instanceof StreamTimeoutError) {
         if (this._captureWindowExpired()) {
           this.logger.info(
-            "Capture window reached %.1fs; closing connection with %d chunk(s) saved",
-            this.maxCaptureSeconds,
+            "Capture window reached %ss; closing connection with %d chunk(s) saved",
+            this.maxCaptureSeconds.toFixed(1),
             this.chunkCount,
           );
         } else {
@@ -639,7 +639,7 @@ class MinecraftClient {
 
     this.playStartedAt = monotonicSeconds();
     this.captureDeadline = this.playStartedAt + this.maxCaptureSeconds;
-    this.logger.info("Capture window started for %.1f seconds", this.maxCaptureSeconds);
+    this.logger.info("Capture window started for %s seconds", this.maxCaptureSeconds.toFixed(1));
   }
 
   _captureWindowExpired() {

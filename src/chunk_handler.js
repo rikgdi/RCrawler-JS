@@ -9,6 +9,7 @@ const {
   ByteReader,
   ProtocolError,
   calculateRequiredLongs,
+  readAnonymousNbtRoot,
   readNbtRoot,
   skipNbtPayload,
 } = require("./protocol");
@@ -162,7 +163,9 @@ class ChunkHandler {
       return heightmaps;
     }
 
-    const [, root] = readNbtRoot(reader);
+    const root = this.protocol.features.levelChunkHeightmapsNbtRoot === "anonymous"
+      ? readAnonymousNbtRoot(reader)
+      : readNbtRoot(reader)[1];
     if (root.tagId !== 10) {
       throw new ProtocolError(`Expected compound heightmaps root, got tag id ${root.tagId}`);
     }

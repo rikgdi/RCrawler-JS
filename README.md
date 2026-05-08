@@ -170,6 +170,8 @@ rcrawler --generate-protocol-assets --minecraft-version 26.1.2 --protocol 775
 *   **772**: Minecraft 1.21.7 / 1.21.8
 *   **771**: Minecraft 1.21.6
 *   **770**: Minecraft 1.21.5
+*   **765**: Minecraft 1.20.3 / 1.20.4
+*   **764**: Minecraft 1.20.2
 *   **763**: Minecraft 1.20.1
 
 ### Project Structure
