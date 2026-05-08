@@ -11,6 +11,7 @@ const {
   ByteReader,
   ProtocolError,
   calculateRequiredLongs,
+  readAnonymousNbtRoot,
   readNbtRoot,
   TAG_END,
   TAG_BYTE,
@@ -361,6 +362,7 @@ class ChunkNBTBuilder {
     const heightmaps = this._readHeightmaps(
       packetReader,
       protocolSpec.features.levelChunkHeightmapsFormat,
+      protocolSpec.features.levelChunkHeightmapsNbtRoot,
     );
     const chunkDataLength = packetReader.readVarInt();
     const rawChunkData = packetReader.read(chunkDataLength);
@@ -384,7 +386,7 @@ class ChunkNBTBuilder {
     return [chunkX, chunkZ, encodeNbtRoot(root)];
   }
 
-  _readHeightmaps(reader, heightmapsFormat) {
+  _readHeightmaps(reader, heightmapsFormat, nbtRootFormat = "named") {
     if (heightmapsFormat === "varint") {
       const count = reader.readVarInt();
       const heightmaps = {};
@@ -402,7 +404,9 @@ class ChunkNBTBuilder {
       return heightmaps;
     }
 
-    const [, root] = readNbtRoot(reader);
+    const root = nbtRootFormat === "anonymous"
+      ? readAnonymousNbtRoot(reader)
+      : readNbtRoot(reader)[1];
     if (root.tagId !== TAG_COMPOUND) {
       throw new ConversionError(`Expected compound heightmaps root, got tag id ${root.tagId}`);
     }

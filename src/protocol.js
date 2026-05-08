@@ -560,6 +560,11 @@ function readNbtRoot(reader) {
   return [name, readNbtPayload(reader, tagId)];
 }
 
+function readAnonymousNbtRoot(reader) {
+  const tagId = reader.readUnsignedByte();
+  return readNbtPayload(reader, tagId);
+}
+
 function readNbtPayload(reader, tagId) {
   if (tagId === TAG_END) {
     return new NBTValue(TAG_END, null);
@@ -701,6 +706,7 @@ module.exports = {
   skipNbtCompound,
   skipNbtRoot,
   readNbtRoot,
+  readAnonymousNbtRoot,
   readNbtPayload,
   encodeNbtRoot,
   gzipNbt,
