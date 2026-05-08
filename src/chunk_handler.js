@@ -192,6 +192,9 @@ class ChunkHandler {
 
       const sectionOffset = reader.index;
       const blockCount = reader.readShort();
+      const fluidCount = this.protocol.features.chunkSectionHasFluidCount
+        ? reader.readShort()
+        : null;
       const blockStates = this._readPalettedContainer(reader, {
         entryCount: 16 * 16 * 16,
         kind: "block_states",
@@ -206,6 +209,7 @@ class ChunkHandler {
         offset: sectionOffset,
         length: reader.index - sectionOffset,
         block_count: blockCount,
+        fluid_count: fluidCount,
         block_states: blockStates,
         biomes,
       });

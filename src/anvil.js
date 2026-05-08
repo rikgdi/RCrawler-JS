@@ -370,6 +370,7 @@ class ChunkNBTBuilder {
       sectionCount,
       minSectionY,
       protocolSpec.features.palettedContainerHasDataArrayLength,
+      protocolSpec.features.chunkSectionHasFluidCount,
     );
     const root = this._buildRootChunk({
       chunkX,
@@ -416,7 +417,7 @@ class ChunkNBTBuilder {
     return heightmaps;
   }
 
-  _buildSections(rawChunkData, sectionCount, minSectionY, hasDataArrayLength) {
+  _buildSections(rawChunkData, sectionCount, minSectionY, hasDataArrayLength, hasFluidCount = false) {
     const reader = new ByteReader(rawChunkData);
     const sections = [];
 
@@ -426,6 +427,9 @@ class ChunkNBTBuilder {
       }
 
       reader.readShort();
+      if (hasFluidCount) {
+        reader.readShort();
+      }
       const blockContainer = this._readProtocolContainer(reader, 4096, "blocks", hasDataArrayLength);
       this._readProtocolContainer(reader, 64, "biomes", hasDataArrayLength);
       const sectionY = minSectionY + sectionIndex;

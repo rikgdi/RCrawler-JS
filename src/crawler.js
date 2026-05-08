@@ -1,7 +1,8 @@
 const EventEmitter = require('events');
 const { MinecraftClient } = require('./client');
 const convertChunks = require('./convert');
-const { createLogger } = require('../shared/logger');
+const { createLogger } = require('./logger');
+const { PROTOCOL_VERSION } = require('./packets');
 
 class Crawler extends EventEmitter {
   constructor(options = {}) {
@@ -10,7 +11,7 @@ class Crawler extends EventEmitter {
       host: '127.0.0.1',
       port: 25565,
       username: 'Crawler',
-      protocol: 772,
+      protocol: PROTOCOL_VERSION,
       outputDir: 'output',
       worldDir: 'world',
       viewDistance: 127,

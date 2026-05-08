@@ -1,6 +1,7 @@
 node_modules/
 output/
 world/
+src/.tmp/
 
 # npm
 npm-debug.log*

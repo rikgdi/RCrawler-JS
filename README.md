@@ -17,7 +17,7 @@ const createCrawler = require('rcrawler');
 const bot = createCrawler({
   host: '127.0.0.1',
   username: 'CrawlerBot',
-  protocol: 774 // Minecraft 1.21.11
+  protocol: 775 // Minecraft 26.1.2
 });
 
 bot.on('chunk', (chunk) => {
@@ -54,7 +54,7 @@ const bot = createCrawler({
   host: '127.0.0.1',
   port: 25565,
   username: 'ChunkGetter',
-  protocol: 774,
+  protocol: 775,
 
   // Storage Settings
   outputDir: 'output', // Where raw .bin chunks go
@@ -98,7 +98,7 @@ The `createCrawler(options)` function accepts the following configuration:
 | `host` | `string` | `'127.0.0.1'` | Server IP address |
 | `port` | `number` | `25565` | Server port |
 | `username` | `string` | `'Crawler'` | Bot username (offline mode) |
-| `protocol` | `number` | `774` | Minecraft protocol version |
+| `protocol` | `number` | `775` | Minecraft protocol version |
 | `outputDir` | `string` | `'output'` | Path to store raw chunk binary files |
 | `worldDir` | `string` | `'world'` | Path to store exported Anvil region files |
 | `viewDistance` | `number` | `127` | Simulated render distance |
@@ -137,7 +137,7 @@ The `Crawler` instance emits the following events:
 ### Capture Chunks
 Connect to a server and start capturing data:
 ```bash
-rcrawler --crawl --ip 127.0.0.1 --username Getter --protocol 772
+rcrawler --crawl --ip 127.0.0.1 --username Getter --protocol 775
 ```
 
 ### Convert Chunks
@@ -154,7 +154,7 @@ rcrawler --convert-chunks --ip 127.0.0.1 --port 25565
 ### Advanced: Bootstrap New Versions (Developers Only)
 This tool is used by contributors to add support for new Minecraft versions. It automatically downloads the official server JAR and uses the built-in Data Generator (**requires Java**) to extract block and registry data:
 ```bash
-rcrawler --generate-protocol-assets --minecraft-version 1.20.1 --protocol 763
+rcrawler --generate-protocol-assets --minecraft-version 26.1.2 --protocol 775
 ```
 
 ---
@@ -164,6 +164,7 @@ rcrawler --generate-protocol-assets --minecraft-version 1.20.1 --protocol 763
 ### Supported Protocols
 `rcrawler` uses dynamic protocol mapping. Currently tested and supported:
 
+*   **775**: Minecraft 26.1 / 26.1.1 / 26.1.2
 *   **774**: Minecraft 1.21.11
 *   **773**: Minecraft 1.21.9 / 1.21.10
 *   **772**: Minecraft 1.21.7 / 1.21.8
