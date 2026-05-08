@@ -20,20 +20,20 @@ Commands:
 
 Examples:
   1. Crawl a server:
-     rcrawler --crawl --ip 127.0.0.1 --port 25565 --username ChunkGetter --protocol 772 \\
+     rcrawler --crawl --ip 127.0.0.1 --port 25565 --username ChunkGetter --protocol 775 \\
        --viewDistance 64 --maxCaptureSeconds 180 --readTimeout 180 --connectTimeout 10
 
   2. Convert captured chunks:
      rcrawler --convert-chunks --chunks-dir output/chunks --world-dir world
 
   3. Generate assets:
-     rcrawler --generate-protocol-assets --minecraft-version 1.20.1 --protocol 763
+     rcrawler --generate-protocol-assets --minecraft-version 26.1.2 --protocol 775
 
 Options for --crawl:
   --ip <address>               Server IP address (required)
   --port <number>              Server port (default: 25565)
   --username <name>            Bot username (required)
-  --protocol <number>          Protocol version number (e.g. 774)
+  --protocol <number>          Protocol version number (e.g. 775)
   --output-dir <path>          Output directory (default: output)
   --world-dir <path>           World directory (default: world)
   --viewDistance <number>      Render distance (default: 127)

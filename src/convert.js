@@ -3,7 +3,7 @@ const fs = require("fs");
 const os = require("os");
 const Zip = require("adm-zip");
 const { WorldExporter } = require("./anvil");
-const { createLogger } = require("../shared/logger");
+const { createLogger } = require("./logger");
 
 const TEMPLATE_LEVEL_DAT = path.join(__dirname, "assets", "templates", "level.dat");
 
@@ -23,13 +23,14 @@ function convertChunks(options = {}) {
     level: logLevel,
     consoleStyle: "simple",
   });
+  const resolvedChunksDir = path.resolve(chunksDir);
 
   // Use a temporary directory for conversion to keep user workspace clean
   const tempWorldDir = fs.mkdtempSync(path.join(os.tmpdir(), "rcrawler-"));
   const finalWorldDir = path.resolve(worldDir);
 
   const exporter = new WorldExporter({
-    chunksDir: path.resolve(chunksDir),
+    chunksDir: resolvedChunksDir,
     worldDir: tempWorldDir,
     blocksJsonPath: blocksJsonPath ? path.resolve(blocksJsonPath) : null,
     defaultBiome,
@@ -37,8 +38,9 @@ function convertChunks(options = {}) {
   });
 
   try {
+    const chunkCount = countCaptureFiles(resolvedChunksDir);
     const regions = exporter.export();
-    logger.info("Converted %d chunk(s) into %d region file(s)", regions.length > 0 ? 1 : 0, regions.length);
+    logger.info("Converted %d chunk(s) into %d region file(s)", chunkCount, regions.length);
 
     const zipFileName = zipWorld({
       host,
@@ -75,10 +77,17 @@ function convertChunks(options = {}) {
   }
 }
 
+function countCaptureFiles(chunksDir) {
+  if (!fs.existsSync(chunksDir)) {
+    return 0;
+  }
+  return fs.readdirSync(chunksDir).filter((name) => /^chunk_.*\.bin$/.test(name)).length;
+}
+
 function zipWorld({ host, port, tempWorldDir, userWorldDir, logger }) {
   const zip = new Zip();
   const timestamp = Math.floor(Date.now() / 1000);
-  const safeHost = host.replace(/[:]/g, "_");
+  const safeHost = String(host).replace(/[<>:"/\\|?*\x00-\x1F]/g, "_");
   const folderName = `${safeHost}_${port}`;
   const zipFileName = `${folderName}-${timestamp}.zip`;
 

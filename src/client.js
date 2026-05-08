@@ -367,6 +367,13 @@ class MinecraftClient {
       return;
     }
 
+    if (this._matchesPacket("configuration", "clientbound", "code_of_conduct", packetIdValue)) {
+      if (this.protocol.hasPacket("configuration", "serverbound", "accept_code_of_conduct")) {
+        this._send("configuration", "serverbound", "accept_code_of_conduct");
+      }
+      return;
+    }
+
     if (this._matchesPacket("configuration", "clientbound", "finish_configuration", packetIdValue)) {
       this.state = "play";
       this._send("configuration", "serverbound", "finish_configuration");
